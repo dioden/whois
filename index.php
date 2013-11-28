@@ -64,6 +64,15 @@ $function = new Functions;
                 <textarea name="query"></textarea><br /><br />
                 <button id="submit">Look Up</button>
             </form>
+            
+            <table>
+                <thead>
+                    <th>Domain</th><th>State</th><th>Created</th><th>Expires</th><th>Registrar</th><th>Name Servers</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

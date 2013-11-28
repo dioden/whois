@@ -18,7 +18,7 @@ if(isset($_POST))
     
     foreach($domains as $key => $value)
     {
-        $domains[$key] = $function->stripNsplit($value);
+        $domains[$key] = $function->split($value);
     }
     
     var_dump($domains);
