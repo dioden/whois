@@ -1,6 +1,8 @@
 <?php
-require("Whois.class.php");
+require_once("Whois.class.php");
+require_once("Functions.class.php");
 $whois = new Whois;
+$function = new Functions;
 ?>
 <html>
     <head>
@@ -11,6 +13,15 @@ $whois = new Whois;
             $().ready(function(){
                 $('div.target').click(function(){
                     $(this).next().slideToggle();
+                });
+                
+                $('form button#submit').click(function(event){
+                    event.preventDefault();                    
+                    console.log($('form textarea[name=query]').serialize());
+        
+                    $.post('Whois.ajax.php',$('form textarea[name=query]').serialize(),function(data){
+                       console.log(data); 
+                    });
                 });
             });
         </script>
@@ -51,28 +62,8 @@ $whois = new Whois;
         <div id="wrapper">
             <form action="" method="post">
                 <textarea name="query"></textarea><br /><br />
-                <input type="submit" name="submit" value="GO FFS!" />
+                <button id="submit">Look Up</button>
             </form>
-            <?php
-            if(isset($_POST['submit']))
-            {
-                $query = explode("\n",$_POST['query']);
-                //var_dump($query);
-                foreach($query as $key => $value)
-                {
-                    if(!empty($value))
-                    {
-                        ?>
-                        <div class="target"><?= $value; ?></div>
-                        <div class="whois">
-                            <?= nl2br($whois->whoislookup($value)); ?>
-                        </div>
-                        <?php
-                        sleep(2);
-                    }
-                }
-            }
-            ?>
         </div>
     </body>
 </html>
