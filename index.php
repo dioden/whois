@@ -3,6 +3,8 @@ require_once("Whois.class.php");
 require_once("Functions.class.php");
 $whois = new Whois;
 $function = new Functions;
+
+//derp
 ?>
 <html>
     <head>
