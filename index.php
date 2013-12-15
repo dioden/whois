@@ -1,11 +1,3 @@
-<?php
-require_once("Whois.class.php");
-require_once("Functions.class.php");
-$whois = new Whois;
-$function = new Functions;
-
-$debug = true;
-?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -111,14 +103,5 @@ $debug = true;
                 </tbody>
             </table>
         </div>
-        <?php
-            if(isset($debug))
-            {
-                echo "<pre>";
-                ?>
-        <div id="debug"></dv>
-                <?php
-            }
-        ?>
     </body>
 </html>
