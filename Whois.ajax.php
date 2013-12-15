@@ -1,26 +1,18 @@
 <?php
+header('Content-type: text/json');
+header('Content-type: application/json');
 require_once("Whois.class.php");
 require_once("Functions.class.php");
 $whois = new Whois;
 $function = new Functions;
 
-if(isset($_POST))
+if(isset($_GET))
 {
-    $domain = explode('%0D%0A',urlencode($_POST['query']));
-    $domains = array();
+    $domain = $_GET['query'];
+    $data = $whois->whoislookup($domain);
     
-    foreach($domain as $value)
-    {
-        $domains[$value] = $whois->whoislookup($value);
-    }
-    
-    //var_dump($domains);
-    
-    foreach($domains as $key => $value)
-    {
-        $domains[$key] = $function->split($value);
-    }
-    
-    var_dump($domains);
+    $data = $function->split($data,$domain);
+    $data = $function->arrayToJson($data);
+    echo $data;
 }
 ?>
