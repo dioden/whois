@@ -4,11 +4,15 @@ require_once("Functions.class.php");
 $whois = new Whois;
 $function = new Functions;
 
-if(isset($_GET))
+if(isset($_GET['query']))
 {
     $domain = $_GET['query'];
-    $data = $whois->whoislookup($domain);
-    
+    if(isset($_GET['use']) && $_GET['use'] == "exec")
+    {
+        echo exec("whois ".$_GET['query']);
+    }else{
+        $data = $whois->whoislookup($domain);
+    }
     $data = $function->split($data,$domain);
     if(!isset($_GET['debug']))
     {
