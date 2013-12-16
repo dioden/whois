@@ -19,6 +19,9 @@ class Functions {
            case 'nu' :
                return $this->SENU($array);
            break;
+           case 'com' :
+               return $this->com($array);
+           break;
        }
     }
     
@@ -59,7 +62,6 @@ class Functions {
                 $ex = explode(":",str_replace(' ','',$value));
                 $arr['expires'] = $ex[count($ex)-1];
             }
-            
             if(preg_match('/^status:/',$value))
             {
                 $ex = explode(":",str_replace(' ','',$value));
@@ -79,9 +81,7 @@ class Functions {
                 {
                     $temp[] = str_replace(' ','',$value);
                 }
-                
-                $arr['nserver'][] = $temp[1];
-                
+                $arr['nserver'][] = $temp[1];  
             }
         }
         return $arr;
@@ -90,6 +90,49 @@ class Functions {
     private function com($array)
     {
         $arr = array();
+        foreach($array as $key => $value)
+        {
+            if(preg_match('/^Domain(.*):/',  $value))
+            {
+                $ex = explode(":",str_replace(' ','',$value));
+                $arr['domain'] = strtolower($ex[count($ex)-1]);
+            }
+            if(preg_match('/^state:/',$value))
+            {
+                $ex = explode(":",str_replace(' ','',$value));
+                $arr['state'] = $ex[count($ex)-1];
+            }
+            if(preg_match('/^Creation Date:/',$value))
+            {
+                $ex = explode(" ",$value);
+                $arr['created'] = $ex[2];
+            }
+            if(preg_match('/^Update Date:/',$value) || preg_match('/^Updated Date:/',$value))
+            {
+                $ex = explode(" ",$value);
+                $arr['modified'] = $ex[2];
+            }
+            if(preg_match('/Expiration Date:/',$value) || preg_match('/^Expire(.*):/',$value))
+            {
+                $ex = explode(" ",$value);
+                $arr['expires'] = $ex[4];
+            }
+            if(preg_match('/^Registrar(.*):/',$value))
+            {
+                $ex = explode(":",str_replace(' ','',$value));
+                $arr['registrar'] = $ex[count($ex)-1];
+            }
+            if(preg_match('/^Name Server:(.*)/',$value,$match))
+            {
+                $temp = array();
+                foreach($match as $value)
+                {
+                    $temp[] = str_replace(' ','',$value);
+                }
+                $arr['nserver'][] = strtolower($temp[1]);
+            }
+        }
+        var_dump($array);
         return $arr;
     }
 }
